@@ -113,6 +113,7 @@
 			<groupId>ec.gob.dinardap.autorizacion</groupId>
 			<artifactId>dinardap-autorizacion</artifactId>
 			<version>2.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
