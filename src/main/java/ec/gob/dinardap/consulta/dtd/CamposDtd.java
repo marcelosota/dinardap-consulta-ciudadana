@@ -4,6 +4,12 @@ public class CamposDtd {
 	private String campo;
 	private String valor;
 	
+	
+	public CamposDtd(String campo, String valor) {
+		super();
+		this.campo = campo;
+		this.valor = valor;
+	}
 	public String getCampo() {
 		return campo;
 	}
