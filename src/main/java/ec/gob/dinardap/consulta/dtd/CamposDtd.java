@@ -5,6 +5,9 @@ public class CamposDtd {
 	private String valor;
 	
 	
+	public CamposDtd() {
+		super();
+	}
 	public CamposDtd(String campo, String valor) {
 		super();
 		this.campo = campo;

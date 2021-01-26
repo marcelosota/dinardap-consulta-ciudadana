@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">    
+    <ui:composition template="/template/general.xhtml">
+        <ui:define name="content">
+            <h1 class="h-wai">Consulta Ciudadana - Instituciones que consumen mis datos</h1>
+            <b:container style="width: 100%">
+                <h:form id="formInstituciones">
+                    <b:panel title="Instituciones consumidoras Prototipo">
+                        <b:panelGrid colSpans="3,7,2" style="width: 75%;" styleClass="panel_boost">
+                            <p:outputLabel for="cedula" value="Cédula:" />
+                            <p:inputText id="cedula"
+                                         value="#{stalkerCtrl.cedulaConsulta}"
+                                         placeholder="1234567890"                                         
+                                         maxlength="10" 
+                                         style="width: 100%" required="true">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
+                            <p:commandButton id="buscarBtn" value="Buscar"
+                                             action="#{stalkerCtrl.buscarCedula}"
+                                             update="formInstituciones:institucionConsumidoraTbl"
+                                             icon="fa fa-fw fa-refresh"/>
+
+                        </b:panelGrid>
+                        <b:panelGrid colSpans="12" style="width: 100%;" styleClass="panel_boost">
+                            <p:dataTable id="institucionConsumidoraTbl"
+                                         value="#{stalkerCtrl.institucionConsumidoraList}" 
+                                         var="informacion"
+                                         rowKey="#{informacion.id}"
+                                         selection="#{stalkerCtrl.institucionConsumidoraSelected}"
+                                         selectionMode="single"
+                                         reflow="true" rows="5" paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,25,50"
+                                         tableStyle="width:auto">
+                                <p:ajax event="rowSelect" listener="#{stalkerCtrl.onRowSelectInstitucionConsumidora}"/>
+                                <p:column headerText="RUC"
+                                          sortBy="#{informacion.ruc}" 
+                                          filterBy="#{informacion.ruc}" filterMatchMode="contains" 
+                                          width="40%" style="text-align: center">
+                                    <h:outputText value="#{informacion.ruc}" />
+                                </p:column>
+                                <p:column headerText="Razón Social" 
+                                          sortBy="#{informacion.razonSocial}" 
+                                          filterBy="#{informacion.razonSocial}" filterMatchMode="contains" 
+                                          width="10%" style="text-align: right">
+                                    <h:outputText value="#{informacion.razonSocial}" />
+                                </p:column>
+                                <p:column headerText="Mes" 
+                                          sortBy="#{informacion.mesStr}" 
+                                          filterBy="#{informacion.mesStr}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.mesStr}" />
+                                </p:column>
+                                <p:column headerText="Cantidad de Consultas" 
+                                          sortBy="#{informacion.cantidadConsultas}" 
+                                          filterBy="#{informacion.cantidadConsultas}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadConsultas}" />
+                                </p:column>                                
+                            </p:dataTable>                 
+
+                        </b:panelGrid>
+                    </b:panel>
+                </h:form>
+            </b:container>
+        </ui:define>
+    </ui:composition>
+</html>

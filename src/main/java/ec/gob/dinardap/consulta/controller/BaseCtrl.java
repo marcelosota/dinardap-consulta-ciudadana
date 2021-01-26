@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ProjectStage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
@@ -110,6 +111,29 @@ public class BaseCtrl implements Serializable {
 	}
 	
 	/**
+	 * 
+	 * @param key
+	 * @param params
+	 * @return
+	 */
+	protected String getBundleMicroservicios(String key, Object params[]) {
+        Locale locale = DEFAULT_LOCALE;
+        String ubicacion = "ec.gob.dinardap.consulta.recursos.microservicios";
+        if (getFacesContext().getViewRoot() != null) {
+            locale = getFacesContext().getViewRoot().getLocale();
+        }
+        ResourceBundle bundle = ResourceBundle.getBundle(
+                ubicacion, locale, getCurrentClassLoader(params));
+        String mensaje = bundle.getString(key);
+
+        if (params != null && params.length > 0) {
+            MessageFormat mf = new MessageFormat(mensaje, locale);
+            mensaje = mf.format(params, new StringBuffer(), null).toString();
+        }
+        return mensaje;
+    }
+	
+	/**
 	 * Agrega un mensaje de error para mostrarlo en pantalla.
 	 *
 	 * @param componentId - null si se quiere mensaje global
@@ -205,6 +229,9 @@ public class BaseCtrl implements Serializable {
 		return (HttpServletResponse) getExternalContext().getResponse();
 
 	}
-
+	
+	public String getAmbiente() {
+        return FacesContext.getCurrentInstance().getExternalContext().getInitParameter(ProjectStage.PROJECT_STAGE_PARAM_NAME);
+    }
 
 }

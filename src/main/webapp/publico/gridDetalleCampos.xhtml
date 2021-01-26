@@ -14,7 +14,12 @@
 		<ui:define name="content">
 			<h1 class="h-wai">#{etiquetas['nombre.sistema']} - Inicio</h1>                                                            
 			<h:form id="formInicio">
-				<p:dataTable value="#{detalleCamposCtrl.campos}" var="c">
+				<p:inputText value="#{detalleCamposCtrl.cedulaConsulta}" />
+				<p:commandButton value="Buscar" 
+					actionListener="#{detalleCamposCtrl.consultar()}" 
+					update="tabla"
+					process="@form"/>
+				<p:dataTable id="tabla" value="#{detalleCamposCtrl.campos}" var="c">
 					<p:column>
 						<h:outputLabel value="#{c.campo}" />
 					</p:column>

@@ -16,5 +16,9 @@
 			<base-name>ec.gob.dinardap.consulta.recursos.mensajes</base-name>
 			<var>mensajes</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>ec.gob.dinardap.consulta.recursos.microservicios</base-name>
+			<var>microservicios</var>
+		</resource-bundle>
 	</application>
 </faces-config>
