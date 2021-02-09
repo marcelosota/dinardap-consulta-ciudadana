@@ -1,14 +1,14 @@
-package ec.gob.dinardap.consulta.dtd;
+package ec.gob.dinardap.consulta.dto;
 
-public class CamposDtd {
+public class CamposDto {
 	private String campo;
 	private String valor;
 	
 	
-	public CamposDtd() {
+	public CamposDto() {
 		super();
 	}
-	public CamposDtd(String campo, String valor) {
+	public CamposDto(String campo, String valor) {
 		super();
 		this.campo = campo;
 		this.valor = valor;

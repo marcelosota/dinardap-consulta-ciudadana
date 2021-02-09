@@ -12,7 +12,7 @@ import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 
-import ec.gob.dinardap.consulta.dtd.InstitucionConsumidora;
+import ec.gob.dinardap.consulta.dto.InstitucionConsumidoraDto;
 import ec.gob.dinardap.consulta.util.ConsumoMicroservicio;
 
 @Named(value = "stalkerCtrl")
@@ -28,16 +28,19 @@ public class StalkerCtrl extends BaseCtrl implements Serializable {
     //Variables de control visual
     //Variables de Negocio    
     private String cedulaConsulta;
-    private InstitucionConsumidora institucionConsumidoraSelected;
+    private String anioConsulta;
+    private Integer mesSeleccionado;
+    private InstitucionConsumidoraDto institucionConsumidoraSelected;
 
     //Listas
-    private List<InstitucionConsumidora> institucionConsumidoraList;
+    private List<InstitucionConsumidoraDto> institucionConsumidoraList;
 
     @PostConstruct
     protected void init() {
         urlMicroservicio = getAmbiente().equals("Development") ? getBundleMicroservicios("urlDesarrollo", null) : getBundleMicroservicios("urlProduccion", null);
         //institucionConsumidoraList = new ArrayList<InstitucionConsumidora>();
         cedulaConsulta="1714284856";
+        anioConsulta="2020";
         try {
 			buscarCedula();
 		} catch (Exception e) {
@@ -48,7 +51,11 @@ public class StalkerCtrl extends BaseCtrl implements Serializable {
 
     public void buscarCedula(){
         try {
-			String url = urlMicroservicio + getBundleMicroservicios("metodo1", null) + cedulaConsulta ;
+        	Object[] param = new Object[3];
+        	param[0] = urlMicroservicio;
+        	param[1] = cedulaConsulta;
+        	param[2] = anioConsulta;
+			String url = getBundleMicroservicios("metodo1", param);
 			StringBuilder res = new StringBuilder(ConsumoMicroservicio.peticionHttpGet(url));
 			System.out.println("====>Res: " + res);        
 			System.out.println("===res: "+res.substring(0,1));
@@ -60,9 +67,23 @@ public class StalkerCtrl extends BaseCtrl implements Serializable {
 			institucionConsumidoraList = new ArrayList<>();
 			JSONArray jsonArray = new JSONArray(res.toString());
 			for (int i = 0; i < jsonArray.length(); i++) {
-			    JSONObject json = jsonArray.getJSONObject(i);
-//			    institucionConsumidoraList.add(new InstitucionConsumidora((i + 1), json.getString("ruc"), json.getString("razonSocial"), Integer.parseInt(json.getString("mes")), Integer.parseInt(json.getString("cantidad"))));
-			}
+	            JSONObject json = jsonArray.getJSONObject(i);
+	            List<Integer> cantidades= new ArrayList<Integer>(); 
+	            cantidades.add(Integer.parseInt(json.getString("mes01")));
+	            cantidades.add(Integer.parseInt(json.getString("mes02")));
+	            cantidades.add(Integer.parseInt(json.getString("mes03")));
+	            cantidades.add(Integer.parseInt(json.getString("mes04")));
+	            cantidades.add(Integer.parseInt(json.getString("mes05")));
+	            cantidades.add(Integer.parseInt(json.getString("mes06")));
+	            cantidades.add(Integer.parseInt(json.getString("mes07")));
+	            cantidades.add(Integer.parseInt(json.getString("mes08")));
+	            cantidades.add(Integer.parseInt(json.getString("mes09")));
+	            cantidades.add(Integer.parseInt(json.getString("mes10")));
+	            cantidades.add(Integer.parseInt(json.getString("mes11")));
+	            cantidades.add(Integer.parseInt(json.getString("mes12")));
+	            institucionConsumidoraList.add(new InstitucionConsumidoraDto(json.getString("ruc"),json.getString("razonSocial"),json.getInt("anio"),cantidades));
+//	            institucionConsumidoraList.add(new InstitucionConsumidora((i + 1), json.getString("title"), json.getString("title"), json.getInt("id"), json.getInt("userId")));
+	        }
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +94,10 @@ public class StalkerCtrl extends BaseCtrl implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    
+    public void celdaSeleccionada() {
+    	
     }
 
     public void onRowSelectInstitucionConsumidora() {
@@ -88,20 +113,36 @@ public class StalkerCtrl extends BaseCtrl implements Serializable {
         this.cedulaConsulta = cedulaConsulta;
     }
 
-    public InstitucionConsumidora getInstitucionConsumidoraSelected() {
+    public InstitucionConsumidoraDto getInstitucionConsumidoraSelected() {
         return institucionConsumidoraSelected;
     }
 
-    public void setInstitucionConsumidoraSelected(InstitucionConsumidora institucionConsumidoraSelected) {
+    public void setInstitucionConsumidoraSelected(InstitucionConsumidoraDto institucionConsumidoraSelected) {
         this.institucionConsumidoraSelected = institucionConsumidoraSelected;
     }
 
-    public List<InstitucionConsumidora> getInstitucionConsumidoraList() {
+    public List<InstitucionConsumidoraDto> getInstitucionConsumidoraList() {
         return institucionConsumidoraList;
     }
 
-    public void setInstitucionConsumidoraList(List<InstitucionConsumidora> institucionConsumidoraList) {
+    public void setInstitucionConsumidoraList(List<InstitucionConsumidoraDto> institucionConsumidoraList) {
         this.institucionConsumidoraList = institucionConsumidoraList;
     }
+
+	public String getAnioConsulta() {
+		return anioConsulta;
+	}
+
+	public void setAnioConsulta(String anioConsulta) {
+		this.anioConsulta = anioConsulta;
+	}
+
+	public Integer getMesSeleccionado() {
+		return mesSeleccionado;
+	}
+
+	public void setMesSeleccionado(Integer mesSeleccionado) {
+		this.mesSeleccionado = mesSeleccionado;
+	}
 
 }

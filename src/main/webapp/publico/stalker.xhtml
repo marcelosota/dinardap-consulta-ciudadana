@@ -20,6 +20,14 @@
                                          style="width: 100%" required="true">
                                 <p:keyFilter regEx="/[\d]/"/>
                             </p:inputText>
+                            <p:outputLabel for="txtAnio" value="Año:" />
+                            <p:inputText id="txtAnio"
+                                         value="#{stalkerCtrl.anioConsulta}"
+                                         placeholder="1234"                                         
+                                         maxlength="4" 
+                                         style="width: 100%" required="true">
+                                <p:keyFilter regEx="/[\d]/"/>
+                            </p:inputText>
                             <p:commandButton id="buscarBtn" value="Buscar"
                                              action="#{stalkerCtrl.buscarCedula}"
                                              update="formInstituciones:institucionConsumidoraTbl"
@@ -30,9 +38,7 @@
                             <p:dataTable id="institucionConsumidoraTbl"
                                          value="#{stalkerCtrl.institucionConsumidoraList}" 
                                          var="informacion"
-                                         rowKey="#{informacion.id}"
-                                         selection="#{stalkerCtrl.institucionConsumidoraSelected}"
-                                         selectionMode="single"
+                                         rowKey="#{informacion.ruc}"
                                          reflow="true" rows="5" paginator="true"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="5,10,25,50"
@@ -50,17 +56,82 @@
                                           width="10%" style="text-align: right">
                                     <h:outputText value="#{informacion.razonSocial}" />
                                 </p:column>
-                                <p:column headerText="Mes" 
-                                          sortBy="#{informacion.mesStr}" 
-                                          filterBy="#{informacion.mesStr}" filterMatchMode="contains" 
+                                <p:column headerText="Enero" 
+                                          sortBy="#{informacion.cantidadMes.get(0)}" 
+                                          filterBy="#{informacion.cantidadMes.get(0)}" filterMatchMode="contains" 
                                           width="20%" style="text-align: left">
-                                    <h:outputText value="#{informacion.mesStr}" />
+                                    <h:outputText value="#{informacion.cantidadMes.get(0)}" />
                                 </p:column>
-                                <p:column headerText="Cantidad de Consultas" 
-                                          sortBy="#{informacion.cantidadConsultas}" 
-                                          filterBy="#{informacion.cantidadConsultas}" filterMatchMode="contains" 
+                                <p:column headerText="Febrero" 
+                                          sortBy="#{informacion.cantidadMes.get(1)}" 
+                                          filterBy="#{informacion.cantidadMes.get(1)}" filterMatchMode="contains" 
                                           width="20%" style="text-align: left">
-                                    <h:outputText value="#{informacion.cantidadConsultas}" />
+                                    
+                                    <p:commandLink actionListener="#{stalkerCtrl.celdaSeleccionada()}">
+                                    	<h:outputText value="#{informacion.cantidadMes.get(1)}" />
+                                    	<f:setPropertyActionListener target="#{stalkerCtrl.mesSeleccionado}" value="0" />
+                                    	<f:setPropertyActionListener target="#{stalkerCtrl.institucionConsumidoraSelected.ruc}" value="#{informacion.ruc}" />
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column headerText="Marzo" 
+                                          sortBy="#{informacion.cantidadMes.get(2)}" 
+                                          filterBy="#{informacion.cantidadMes.get(2)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(2)}" />
+                                </p:column>
+                                <p:column headerText="Abril" 
+                                          sortBy="#{informacion.cantidadMes.get(3)}" 
+                                          filterBy="#{informacion.cantidadMes.get(3)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(3)}" />
+                                </p:column>
+                                <p:column headerText="Mayo" 
+                                          sortBy="#{informacion.cantidadMes.get(4)}" 
+                                          filterBy="#{informacion.cantidadMes.get(4)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(4)}" />
+                                </p:column>
+                                <p:column headerText="Junio" 
+                                          sortBy="#{informacion.cantidadMes.get(5)}" 
+                                          filterBy="#{informacion.cantidadMes.get(5)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(5)}" />
+                                </p:column>
+                                <p:column headerText="Julio" 
+                                          sortBy="#{informacion.cantidadMes.get(6)}" 
+                                          filterBy="#{informacion.cantidadMes.get(6)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(6)}" />
+                                </p:column>
+                                <p:column headerText="Agosto" 
+                                          sortBy="#{informacion.cantidadMes.get(7)}" 
+                                          filterBy="#{informacion.cantidadMes.get(7)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(7)}" />
+                                </p:column>
+                                <p:column headerText="Septiembre" 
+                                          sortBy="#{informacion.cantidadMes.get(8)}" 
+                                          filterBy="#{informacion.cantidadMes.get(8)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(8)}" />
+                                </p:column>
+                                <p:column headerText="Octubre" 
+                                          sortBy="#{informacion.cantidadMes.get(9)}" 
+                                          filterBy="#{informacion.cantidadMes.get(9)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(9)}" />
+                                </p:column>
+                                <p:column headerText="Noviembre" 
+                                          sortBy="#{informacion.cantidadMes.get(10)}" 
+                                          filterBy="#{informacion.cantidadMes.get(10)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(10)}" />
+                                </p:column>
+                                <p:column headerText="Diciembre" 
+                                          sortBy="#{informacion.cantidadMes.get(11)}" 
+                                          filterBy="#{informacion.cantidadMes.get(11)}" filterMatchMode="contains" 
+                                          width="20%" style="text-align: left">
+                                    <h:outputText value="#{informacion.cantidadMes.get(11)}" />
                                 </p:column>                                
                             </p:dataTable>                 
 

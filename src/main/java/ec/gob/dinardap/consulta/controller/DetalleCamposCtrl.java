@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import ec.gob.dinardap.consulta.dtd.CamposDtd;
-import ec.gob.dinardap.consulta.dtd.InstitucionConsumidora;
+import ec.gob.dinardap.consulta.dto.CamposDto;
+import ec.gob.dinardap.consulta.dto.InstitucionConsumidoraDto;
 import ec.gob.dinardap.consulta.util.ConsumoMicroservicio;
 
 @Named("detalleCamposCtrl")
@@ -35,7 +35,7 @@ public class DetalleCamposCtrl extends BaseCtrl implements Serializable{
 	 */
 	private static final long serialVersionUID = 6009898481084937519L;
 
-	private List<CamposDtd> campos;
+	private List<CamposDto> campos;
 	private String titulo;
 	private String cedulaConsulta;
 	private String urlMicroservicio;
@@ -52,12 +52,12 @@ public class DetalleCamposCtrl extends BaseCtrl implements Serializable{
 		}
 	}
 	
-	private List<CamposDtd> consultarPorMeses(StringBuilder res) {
+	private List<CamposDto> consultarPorMeses(StringBuilder res) {
 		JSONArray jsonArray = new JSONArray(res.toString());
-		List<CamposDtd> registros = new ArrayList<>();
+		List<CamposDto> registros = new ArrayList<>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 		    JSONObject json = jsonArray.getJSONObject(i);
-		    CamposDtd item = new CamposDtd();
+		    CamposDto item = new CamposDto();
 		    item.setCampo(json.getString("ruc"));
 		    item.setValor(json.getString("razonSocial"));
 		    registros.add(item);
@@ -79,22 +79,15 @@ public class DetalleCamposCtrl extends BaseCtrl implements Serializable{
 	}
 	
 	private void convertirJson(StringBuilder sb) {
-		//Gson gson = new Gson();
-		//List<InstitucionConsumidora> lista = gson.fromJson(sb.toString(), new TypeToken<List<InstitucionConsumidora>>() {}.getType());
-		JsonArray contacts = (JsonArray) JsonUtil.toJson(sb.toString());
+		JsonArray miJson = (JsonArray) JsonUtil.toJson(sb.toString());
 		
-		JsonObject result = contacts.getValuesAs(JsonObject.class).stream()
+		JsonObject result = miJson.getValuesAs(JsonObject.class).stream()
 	            .collect(JsonCollectors.groupingBy(x->((JsonObject)x).getString("ruc")));
-		/*JsonObject result = contacts.getValuesAs(JsonObject.class).stream()
-                .filter(x->"F".equals(x.getString("gender")))
-                .collect(JsonCollectors.toJsonObject(
-                        x->x.asJsonObject().getString("name"),
-                        x->x.asJsonObject().getJsonObject("phones").get("mobile")))*/
 		System.out.println(result.toString());
     
 	}
 	
-	public List<CamposDtd> getData() throws Exception {
+	public List<CamposDto> getData() throws Exception {
         String data = "  [{\n" + 
                 "    \"nm\": \"Harold II\",\n" + 
                 "    \"cty\": \"Ecuador\",\n" + 
@@ -126,19 +119,19 @@ public class DetalleCamposCtrl extends BaseCtrl implements Serializable{
                 "    \"yrs\": \"1135-1154\"\n" + 
                 "  }]";
 
-        List<CamposDtd> monarchList = new ArrayList<>();
+        List<CamposDto> monarchList = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(data);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject json = jsonArray.getJSONObject(i);  
-            monarchList.add(new CamposDtd(json.getString("nm"), json.getString("cty")));
+            monarchList.add(new CamposDto(json.getString("nm"), json.getString("cty")));
         }
 
         return monarchList;
     }
-	public List<CamposDtd> getCampos() {
+	public List<CamposDto> getCampos() {
 		return campos;
 	}
-	public void setCampos(List<CamposDtd> campos) {
+	public void setCampos(List<CamposDto> campos) {
 		this.campos = campos;
 	}
 	public String getTitulo() {

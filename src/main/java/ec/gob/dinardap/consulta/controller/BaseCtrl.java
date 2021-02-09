@@ -1,6 +1,7 @@
 package ec.gob.dinardap.consulta.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -218,6 +219,30 @@ public class BaseCtrl implements Serializable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void descargarArchivo(byte[] archivo, String contentType, String name) {
+		ExternalContext ec = getExternalContext();
+		ec.responseReset(); 
+	    ec.setResponseContentType(contentType);
+	    ec.setResponseContentLength(archivo.length); 
+	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + name + "\""); 
+
+	    try {
+			OutputStream output = ec.getResponseOutputStream();
+			output = ec.getResponseOutputStream();
+			output.write(archivo);
+			output.flush();
+			output.close();
+			getFacesContext().responseComplete();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    // Now you can write the InputStream of the file to the above OutputStream the usual way.
+	    // ...
+
+	    
 	}
 	
 	/**
